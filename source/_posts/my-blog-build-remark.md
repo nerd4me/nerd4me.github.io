@@ -1,7 +1,11 @@
 ---
 title: 基于 GitHub Pages + Hexo 搭建个人博客
+index_img: /img/Blog-Post_thumbnail.png
+tags:
+  - Hexo
+  - Fluid
+abbrlink: d2b9b4ed
 date: 2022-10-19 22:30:53
-tags: ['hexo','fluid']
 ---
 
 {% note primary %}
