@@ -1,11 +1,11 @@
 ---
-title: 本博客搭建过程备忘
-date: 2022-10-16 19:42:53
+title: 基于 GitHub Pages + Hexo 搭建个人博客
+date: 2022-10-19 22:30:53
 tags: ['hexo','fluid']
 ---
 
 {% note primary %}
-本博客基于 `Github Pages + Hexo`，`Hexo` 是一个快速、简单且功能强大的博客框架。支持使用 `Markdown` 写文章，`Hexo` 会在几秒内生成带有各种自定义主题、并且集成了各项功能的静态页面。
+本博客基于 `Github Pages + Hexo`，`Hexo` 是一个快速、简单且功能强大的博客框架。支持使用 `Markdown` 写文章，`Hexo` 会在几秒内生成带有各种自定义主题、并且集成了各项功能的网站页面。
 {% endnote %}
 
 ### 零、准备工作
@@ -71,7 +71,7 @@ cd my-blog
 npm install
 ```
 
-#### 3. 生成静态文件 & 本地启动
+#### 3. 生成网页文件 & 本地启动
 
 ```bash
 hexo generate # 生成页面，此命令可以简写为 `hexo g`
@@ -161,29 +161,39 @@ hexo s
 
 ### 三、创建文章
 
-修改 `_config.yml` 文件，这项配置是为了在生成文章的时候同时生成一个同步的资源目录用于存放图片等资源文件
+修改 `_config.yml` 文件，这项配置是为了在生成文章的时候同时生成一个同名的资源目录用于存放图片等资源文件
 
 ```yaml
 post_asset_folder: true
 ```
 
-创建一篇名为《本博客搭建过程备忘》的文章
+创建文件名为 `my-blog-build-remark` 文章
 
 ```bash
-hexo new post 本博客搭建过程备忘
+hexo new post my-blog-build-remark
+```
+
+设置文章的标题及其他元数据信息
+
+```yaml
+---
+title: 基于 GitHub Pages + Hexo 搭建个人博客
+date: 2022-10-16 19:42:53
+tags: ['hexo','fluid']
+---
 ```
 
 如上命令执行成功后，在 `source/_posts/` 目录下生成了一个 `Markdown` 文件和一个同名的资源目录
 
-在 `source/_posts/本博客搭建过程备忘` 目录中放置一个图片文件 `posts-file-tree.png`，整体目录结构如下：
+在 `source/_posts/my-blog-build-remark` 目录中放置一个图片文件 `posts-file-tree.png`，整体目录结构如下：
 
 ```shell
 $ source/_posts (main)> tree
 .
 ├── hello-world.md
-├── 本博客搭建过程备忘
+├── my-blog-build-remark
 │   └── posts-file-tree.png
-└── 本博客搭建过程备忘.md
+└── my-blog-build-remark.md
 ```
 
 然后在文章的 `Markdown` 文件里通过如下方式即可引用对应的图片
