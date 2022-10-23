@@ -6,6 +6,7 @@ tags:
   - Fluid
 abbrlink: d2b9b4ed
 date: 2022-10-19 22:30:53
+alias: 2022/10/19/my-blog-build-remark/index.html
 ---
 
 {% note primary %}
