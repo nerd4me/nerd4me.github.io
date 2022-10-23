@@ -1,0 +1,941 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/gopher-hiking.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="nerd4me">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本系列文章将分为上下两篇分别介绍 复式记账法[1] 的基本概念以及如何使用 Beancount[2] 记账。 一、为什么要记账关于「为什么要记账？」，大多数人的回答无非如下几点：  掌控自己的收支情况，以便更好的规划自己的理财计划； 单纯的作为一种记录，帮助自己保存记忆； 希望通过记账来改变自己的消费习惯； 觉得自己穷，希望通过记账来寻找可削减的开支；  然而，在我看来，记账的功效远不止于上面所说">
+<meta property="og:type" content="article">
+<meta property="og:title" content="程序员复式记账指南（上）">
+<meta property="og:url" content="https://nerd4me.github.io/posts/7a37cdfc.html">
+<meta property="og:site_name" content="Nerd4me&#39;s Blog">
+<meta property="og:description" content="本系列文章将分为上下两篇分别介绍 复式记账法[1] 的基本概念以及如何使用 Beancount[2] 记账。 一、为什么要记账关于「为什么要记账？」，大多数人的回答无非如下几点：  掌控自己的收支情况，以便更好的规划自己的理财计划； 单纯的作为一种记录，帮助自己保存记忆； 希望通过记账来改变自己的消费习惯； 觉得自己穷，希望通过记账来寻找可削减的开支；  然而，在我看来，记账的功效远不止于上面所说">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nerd4me.github.io/img/double-entry-bookkeeping.jpg">
+<meta property="article:published_time" content="2022-10-22T09:52:12.000Z">
+<meta property="article:modified_time" content="2022-10-23T02:13:44.166Z">
+<meta property="article:author" content="nerd4me">
+<meta property="article:tag" content="Beancount">
+<meta property="article:tag" content="Bookkeeping">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nerd4me.github.io/img/double-entry-bookkeeping.jpg">
+  
+  
+  
+  <title>程序员复式记账指南（上） - Nerd4me&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nerd4me.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"oMPKEmwbmKnTBea7XlvaskIk-gzGzoHsz","app_key":"ZkjHiEC8yC8zscGJP1YVrvbB","server_url":"https://ompkemwb.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":true}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Nerd4me&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="程序员复式记账指南（上）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-22 17:52" pubdate>
+          2022年10月22日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          47 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">程序员复式记账指南（上）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>本系列文章将分为上下两篇分别介绍 <strong>复式记账法<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="在会计学中，复式记账法（又称为复式簿记 - Bookkeeping）是商业及其他组织上记录金融交易的标准系统。该系统之所以称为复式簿记，是因为每笔交易都至少记录在两个不同的账户当中。每笔交易的结果至少被记录在一个借方和一个贷方的账户，且该笔交易的借贷双方总额相等，即“有借必有贷，借贷必相等”。">[1]</span></a></sup></strong> 的基本概念以及如何使用 <strong>Beancount<sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote"><span class="hint--top hint--rounded" aria-label="[Beancount](https://github.com/beancount/beancount) 是一个开源的基于纯文本的复式记账软件。它为我们提供了一系列开箱即用的命令行工具，以及一套简洁实用且美观的 WebUI：[Fava](https://github.com/beancount/fava)">[2]</span></a></sup></strong> 记账。</p>
+<h2 id="一、为什么要记账"><a href="#一、为什么要记账" class="headerlink" title="一、为什么要记账"></a>一、为什么要记账</h2><p>关于「为什么要记账？」，大多数人的回答无非如下几点：</p>
+<ol>
+<li>掌控自己的收支情况，以便更好的规划自己的理财计划；</li>
+<li>单纯的作为一种记录，帮助自己保存记忆；</li>
+<li>希望通过记账来改变自己的消费习惯；</li>
+<li>觉得自己穷，希望通过记账来寻找可削减的开支；</li>
+</ol>
+<p>然而，在我看来，记账的功效远不止于上面所说的。记账能让我们更清晰宏观的了解自身的财务状况，并通过合理的财富资源配置（用大白话讲就是：让钱去该去的地方），帮助我们更好的应对风险，规划自己的投资行为。</p>
+<p>一个有着良好维护的账本能够生成很多有用的账务报表，其中最有用的两个：</p>
+<ul>
+<li><strong>损益表（Income Statement）</strong>: 通过周期性的审阅这个报表，我们能够清楚的知道这段时间内资金的流向（用大白话讲就是：钱从哪里来？钱到哪里去了？）,以及我们的盈利&#x2F;亏损（Profit and Loss）情况（也就是收入减去支出）。</li>
+<li><strong>资产负债表（Balance Sheet）</strong>：体现我们有多少钱，并且这些钱都分布在哪里。</li>
+</ul>
+<p>为了拥有一个维护良好的账本，我们需要一种更科学的记账方式。</p>
+<h2 id="二、复式记账法-vs-图论-3"><a href="#二、复式记账法-vs-图论-3" class="headerlink" title="二、复式记账法 vs 图论[3]"></a>二、复式记账法 vs 图论<sup id="fnref:3" class="footnote-ref"><a href="#fn:3" rel="footnote"><span class="hint--top hint--rounded" aria-label="图论是研究事物之间关系的科学，万物之间都是有千丝万缕联系的，任何有联系（联接）的东西都可以抽象成图这种数据结构。抽象成图之后，更好做分析，比如分析哪个节点影响力最大，哪条路径最为关键，预测哪个方向会出现更多节点等等">[3]</span></a></sup></h2><p>复式记账法保证了每一条帐目，都会有至少两个账户和至少一条交易，而图这种数据结构是节点和边的集合，如果我们把节点当成账户，把交易当成一条有向边，有向边的方向表示资金的流动方向。这就是 Martin Kleppmann<sup id="fnref:4" class="footnote-ref"><a href="#fn:4" rel="footnote"><span class="hint--top hint--rounded" aria-label="Martin Kleppmann 是剑桥大学「分布式」系统研究人员，著有 [«Designing Data-Intensive Applications»](https://book.douban.com/subject/26197294/)一书">[4]</span></a></sup> 大神在他的 <a target="_blank" rel="noopener" href="https://martin.kleppmann.com/2011/03/07/accounting-for-computer-scientists.html">Accounting for Computer Scientists</a> 这篇文章中提出的理论，下面的章节将围绕这个理论来揭开复式记账法的神秘面纱。</p>
+<h3 id="账户-x3D-节点，交易-x3D-有向边"><a href="#账户-x3D-节点，交易-x3D-有向边" class="headerlink" title="账户 &#x3D; 节点，交易 &#x3D; 有向边"></a>账户 &#x3D; 节点，交易 &#x3D; 有向边</h3><p>假设老王的老婆给了老王5000元的启动资金（转入银行卡），开了一个煎饼摊，买设备花了1000元（银行转账），然后还买了些做煎饼的原材料，总共花费500元（信用卡付款），最后还使用银行卡还了250元的信用卡账单。</p>
+<p>图数据结构中的边永远是从一个节点指向其他的节点。这些节点的名称暂且随意定义（虽然在会计学中，账户的名称需要遵循一定的规则）</p>
+
+<pre>
+<code class="mermaid" >
+graph LR;
+A([启动资金]):::black -->|5,000元| B([银行卡]):::black
+B -->|1,000元| C([煎饼设备]):::black
+B -->|250元| D([信用卡]):::black
+D -->|500元| E([食材]):::black
+classDef black fill:#FFF,stroke:#000;
+</code>
+</pre>
+
+<h3 id="账户余额（Balance）"><a href="#账户余额（Balance）" class="headerlink" title="账户余额（Balance）"></a>账户余额（Balance）</h3><p>图数据结构中的节点在会计学中叫做账户，每一个账户都有余额，余额完全由进出账户的交易决定</p>
+
+<pre>
+<code class="mermaid" >
+graph LR;
+A([启动资金<br>-5,000元]):::black -->|5,000元| B([银行卡<br>3,750元]):::black
+B -->|1,000元| C([煎饼设备<br>1,000元]):::black
+B -->|250元| D([信用卡<br>-250元]):::black
+D -->|500元| E([食材<br>500元]):::black
+classDef black fill:#FFF,stroke:#000;
+</code>
+</pre>
+
+<p>如上图数据结构中的账户余额有两个特别有用的特性：</p>
+<ol>
+<li>因为每笔交易同时出现在两个不同账户，图中所有账户余额之和为0；</li>
+<li>将所有节点的集合分成不相交的子集，分别计算两个子集的余额之和互为相反数；</li>
+</ol>
+<p>这两个特性对于检查账目的准确性非常有用，如果其中任何一个被违反了，就说明账目有问题。</p>
+<h3 id="经营煎饼摊"><a href="#经营煎饼摊" class="headerlink" title="经营煎饼摊"></a>经营煎饼摊</h3><p>老王的煎饼摊生意很不错，目前靠卖煎饼总共获得了5,000元的收入，而且他发明的改良版本煎饼设备获得了专利，煎饼设备生产厂家打算先生产500台试试水，并以每台设备10元的价格购买他的专利使用权（总共5,000元），厂家先预付了2,500元。</p>
+<p>老王把上面的图给他做会计的老婆看了下，她老婆给他讲了一堆的会计专业术语，并坚持认为「煎饼设备」的记账方式不对，她觉得应该分4年去折旧这些设备，因为在4年之内，老王完全有可能再把它们给转让出去，而且「启动资金」那里应该改成「实收资本」。</p>
+<p>老王的朋友觉得煎饼摊的生意不错，注资了25,000元，他终于可以给自己发工资了。</p>
+
+<pre>
+<code class="mermaid" >
+graph LR;
+F([主营业务收入<br>-5,000元]):::black -->|5,000元| B
+G([专利收入<br>-5,000元]):::black -->|5,000元| H([工厂<br>2,500元]):::black
+H -->|2,500元| B
+A([实收资本<br>-30,000元]):::black -->|30,000元| B([银行卡<br>28,250元]):::black
+B -->|1,000元| C([煎饼设备<br>750元]):::black
+B -->|8,000元| I([佣金支出<br>8,000元]):::black
+B -->|250元| D([信用卡<br>-250元]):::black
+D -->|500元| E([食材<br>500元]):::black
+C -->|250元| J([设备折旧<br>250元]):::black
+classDef black fill:#FFF,stroke:#000;
+</code>
+</pre>
+
+<h3 id="财务报表"><a href="#财务报表" class="headerlink" title="财务报表"></a>财务报表</h3><p>至此，我们已经完成了整个图数据结构的构建，现在将向你展示如何通过上面的图数据结构，生成公司财报中最常用的两个报表。</p>
+<p>先对图数据结构中的节点进行分类着色处理：</p>
+
+<pre>
+<code class="mermaid" >
+graph LR;
+F([主营业务收入<br>-5,000元]):::blue -->|5,000元| B
+G([专利收入<br>-5,000元]):::blue -->|5,000元| H([工厂<br>2,500元]):::green
+H -->|2,500元| B
+A([实收资本<br>-30,000元]):::pink -->|30,000元| B([银行卡<br>28,250元]):::green
+B -->|1,000元| C([煎饼设备<br>750元]):::green
+B -->|8,000元| I([佣金支出<br>8,000元]):::blue
+B -->|250元| D([信用卡<br>-250元]):::green
+D -->|500元| E([食材<br>500元]):::blue
+C -->|250元| J([设备折旧<br>250元]):::blue
+
+classDef blue fill:#8AD0FC,stroke:#000;
+classDef pink fill:#FCB6C0,stroke:#000;
+classDef green fill:#A2FE97,stroke:#000;
+</code>
+</pre>
+
+<p>各种颜色所代表的含义（我会将对应的会计术语放到括号中，因为这些你在今后的记账中可能会遇到）：</p>
+<ul>
+<li><span style="color:#A2FE97"><strong>绿色</strong></span> 代表 <strong>你所拥有的东西</strong>（资产-Assets），例如：银行存款、现金，或者你已经买了且将来有可能折旧卖出的东西，比如说图中的「煎饼设备」。同时还代表公司&#x2F;个人 <strong>欠你的钱</strong>（债务人-Debtors，工厂欠你的钱），and <strong>你欠的钱</strong>（负债-Liabilities，比如说你的信用卡账单）。</li>
+<li><span style="color:#8AD0FC"><strong>蓝色</strong></span> 代表 <strong>销售你的产品&#x2F;知识产权转让</strong>（收入-Income）和 <strong>你花出去的</strong>且永远不会再回来的钱（花费-Expenses）。「煎饼设备」是绿色，因为你可能再将它卖出，但「食材」是蓝色，因为你一旦买了，它将永远不会再回来</li>
+<li><span style="color:#FCB6C0"><strong>粉色</strong></span> 代表 <strong>投资者给的钱</strong>（权益-Equity），通过出售煎饼摊的所有者权益。（如果你有银行贷款，它不是粉色，而是绿色，因为你欠银行的钱是需要还的）</li>
+</ul>
+<h3 id="损益表（Income-Statement）"><a href="#损益表（Income-Statement）" class="headerlink" title="损益表（Income Statement）"></a>损益表（Income Statement）</h3><p>通过将图数据结构中所有的蓝色节点的余额相加，我们最终得到一个值，这个值是负数代表「盈利(Profit)」，其绝对值代表这段时间内老王煎饼摊的「净利润(Net Profit)」，正数代表「亏损(Loss)」，其值代表这段时间内老王煎饼摊的「净亏损(Net Loss)」</p>
+<p>转换成会计学中标准的格式（这里的报表为了易于理解，针对收入余额做了取绝对值处理）：</p>
+
+<table style="margin: 1.5em 0">
+  <tbody><tr>
+    <th rowspan="3" style="font-variant: small-caps;">Income</th>
+    <td style="border-bottom: 1px solid #888;">主营业务收入</td>
+    <td style="border-bottom: 1px solid #888; text-align: right;">5,000元</td>
+  </tr>
+  <tr>
+    <td style="border-bottom: 1px solid #888;">专利收入</td>
+    <td style="border-bottom: 1px solid #888; text-align: right;">5,000元</td>
+  </tr>
+  <tr>
+    <th style="border-bottom: 1px solid #888;">Total income</th>
+    <th style="border-bottom: 1px solid #888; text-align: right;">10,000元</th>
+  </tr>
+  <tr style="height: 0.7em"></tr>
+  <tr style="margin-top: 1em">
+    <th rowspan="4" style="font-variant: small-caps;">Expenses</th>
+    <td>佣金</td>
+    <td style="text-align: right;">8,000元</td>
+  </tr>
+  <tr>
+    <td>设备折旧</td>
+    <td style="text-align: right;">250元</td>
+  </tr>
+  <tr>
+    <td style="border-bottom: 1px solid #888;">食材</td>
+    <td style="border-bottom: 1px solid #888; text-align: right;">500元</td>
+  </tr>
+  <tr>
+    <th style="border-bottom: 1px solid #888;">Total expenses</th>
+    <th style="border-bottom: 1px solid #888; text-align: right;">8,750元</th>
+  </tr>
+  <tr style="height: 0.7em"></tr>
+  <tr style="margin-top: 1em">
+    <th style="padding-top: 1em; font-variant: small-caps;">Total</th>
+    <th style="border-bottom: 1px solid #888; font-weight: bold;">Profit/Loss</th>
+    <th style="border-bottom: 1px solid #888; font-weight: bold; text-align: right;">1,250元</th>
+    <td>(= total income - total expenses)</td>
+  </tr>
+</tbody></table>
+
+
+<p>上面的表看起来很直观。老王靠销售煎饼和专利转让获得了10,000元的收入，产生的费用8,750元，所以老王煎饼摊的净利润是1,250元。</p>
+<p>「<strong>损益表</strong>」通常是在一段时间内会计算一次（周期通常是以一个月、一个季度或者一年），如果要计算一段时间内的损益表，你需要将发生在这段时间内的交易给筛选出来，余额也仅是这段时间内的交易的累加。</p>
+<div class="note note-warning">
+            <p>这里有个点需要注意一下：盈利并不能代表银行账户余额的增加，银行账户是一个绿色节点，但我们这里只统计了蓝色节点。在这个例子中，「实收资本」账户有30,000元流向「银行卡」账户，但「银行卡」账户实际余额只有28,250元，看起来银行账户的钱是减少了，因为「煎饼设备生产厂」还欠我们2,500元没有付。这也就是为什么有些公司从财务报表上看是盈利的，但还是会因为公司账上没钱而进行不下去。</p>
+          </div>
+
+<h3 id="资产负债表（Balance-Sheet）"><a href="#资产负债表（Balance-Sheet）" class="headerlink" title="资产负债表（Balance Sheet）"></a>资产负债表（Balance Sheet）</h3><p>资产负债表虽然不如损益表直观，但它是一个非常强大的工具。你可以一目了然地看到自己有多少资产、然后这些资产分别在哪些账户里、有多少负债、是对哪些银行&#x2F;机构的负债。</p>
+<p>还记得我们之前说过的将图中节点集合分成任意两个不相交的集合，将其各自的余额相加之后的值为0？这正是资产负债表的由来。我们取图中的所有节点，对其进行分类，绿色节点在一类，另一类是蓝色和粉色节点。所以蓝色和紫色节点的余额之和与所有绿色节点的余额之和加起来为0.</p>
+<p>为了方便查看，我们将蓝色和粉色节点的余额做了求绝对值处理，这样在我们的资产负债表里，上下的两个值相等的：</p>
+
+<table style="margin: 1.5em 0">
+  <tbody><tr>
+    <th rowspan="4" style="font-variant: small-caps;">Assets</th>
+    <td>银行卡</td>
+    <td style="text-align: right;">28,250元</td>
+  </tr>
+  <tr>
+    <td>债务人</td>
+    <td style="text-align: right;">2,500元</td>
+  </tr>
+  <tr>
+    <td style="border-bottom: 1px solid #888;">煎饼设备</td>
+    <td style="border-bottom: 1px solid #888; text-align: right;">750元</td>
+  </tr>
+  <tr>
+    <th style="border-bottom: 1px solid #888;">Total assets</th>
+    <th style="border-bottom: 1px solid #888; text-align: right;">31,500元</th>
+  </tr>
+  <tr style="height: 0.7em"></tr>
+  <tr style="margin-top: 1em">
+    <th rowspan="2" style="font-variant: small-caps;">Liabilities</th>
+    <td style="border-bottom: 1px solid #888;">信用卡</td>
+    <td style="border-bottom: 1px solid #888; text-align: right;">250元</td>
+  </tr>
+  <tr>
+    <th style="border-bottom: 1px solid #888;">Total liabilities</th>
+    <th style="border-bottom: 1px solid #888; text-align: right;">250元</th>
+  </tr>
+  <tr style="height: 0.7em"></tr>
+  <tr>
+    <th colspan="2" style="border-bottom: 1px solid #888; font-weight: bold;">Total assets less total liabilities</th>
+    <th style="border-bottom: 1px solid #888; font-weight: bold; text-align: right;">31,250元</th>
+  </tr>
+  <tr style="height: 0.7em"></tr>
+  <tr style="margin-top: 1em">
+    <th rowspan="3" style="padding-top: 1em; font-variant: small-caps;">Equity</th>
+    <td>Profit/Loss</td>
+    <td style="text-align: right;">1,250元</td>
+  </tr>
+  <tr>
+    <td style="border-bottom: 1px solid #888;">实收资本</td>
+    <td style="border-bottom: 1px solid #888; text-align: right;">30,000元</td>
+  </tr>
+  <tr>
+    <th style="border-bottom: 1px solid #888; font-weight: bold;">Total equity</th>
+    <th style="border-bottom: 1px solid #888; font-weight: bold; text-align: right;">31,250元</th>
+  </tr>
+</tbody></table>
+
+
+<p>上面的部分(Assets and Liabilities)代表图中的绿色节点，下面部分包含了粉色节点为和所有蓝色节点之和。我们已经在上面的损益表里展示了所有蓝色节点的余额，在资产负债表里，我们只需要将其计算出来的值填到「Profit&#x2F;Loss」这一项即可。</p>
+<h2 id="三、Beancount"><a href="#三、Beancount" class="headerlink" title="三、Beancount"></a>三、Beancount</h2><h3 id="Ledger-like-和-Beancount"><a href="#Ledger-like-和-Beancount" class="headerlink" title="Ledger-like 和 Beancount"></a>Ledger-like 和 Beancount</h3><p>Beancount 是一个 Ledger-like 软件。Ledger 是这一类复式记账软件的开创者。他们共有的特点是：</p>
+<ul>
+<li>采用改进的复式簿记方案（使用正负号而不是「借」和「贷」来表示账户之间的变化）；</li>
+<li>使用纯文本文件作为账本，用户用文本编辑器即可记账；</li>
+<li>账本既是用户输入的文件，同时也是软件的「数据库」；</li>
+<li>软件读取账本并生成报表，账本本身也可供人类直接阅读。</li>
+</ul>
+<p>市面上的复式簿记软件不少（如 GnuCash），但是大部分都是提供一个 GUI，用户在一堆文本框里输入各种数字和文字，软件接受输入然后存储到自己的数据库里（SQLite、MySQL 等）。用户无法直接看到或操作他们的数据，必须通过软件来操作；一旦软件停止更新，用户的数据就危在旦夕：难以导出，难以复用，很难跨平台或跨设备同步。</p>
+<p>而 Ledger-like 软件则直接使用文本文件作为账本，用户直接用最喜爱的编辑器打开账本即可记账。软件只是读取你的账本并生成报表，即使软件停止更新，用户依然可以直接阅读账本。你可以方便地在各在平台上记账，甚至跨设备问题也可以用 Dropbox 等同步工具，或是 Git 等版本管理工具轻松解决。</p>
+<p>Beancount 是 Ledger-like 软件中优秀的一员，相比用 C++ 写成的 Ledger，用 Python 写成的 Beancount 更轻便，更方便增加插件和二次开发，也增加了很多功能，如灵活强大的多「货币」支持。这里为加上引号是因为，Beancount 其实并不知道什么是「货币」，它记录的只是「通货」（commodity）的变化，所有的 commodity 皆由用户自己定义，因此 Beancount 可以用来记录包括货币在内任何东西的变化，比如年假天数、股票、航空里程、信用卡积分，当然了，还可以用来数豆子。这也是 Beancount 名字的来源。</p>
+<h3 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h3><p>首先需要安装 <code>Python3</code> 环境，然后安装对应的包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install beancount fava<br></code></pre></td></tr></table></figure>
+
+<p>生成一个官方提供的示例</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">bean-example &gt; example.beancount<br></code></pre></td></tr></table></figure>
+
+<p>通过 <code>fava</code> 命令运行 WebUI</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">fava -H 0.0.0.0 example.beancount<br></code></pre></td></tr></table></figure>
+
+<p>默认情况下Web UI会运行在 <a target="_blank" rel="noopener" href="http://localhost:5000/">http://localhost:5000</a></p>
+<p>这样就有一个基本环境了。 下一篇会进一步介绍。</p>
+<h2 id="四、参考"><a href="#四、参考" class="headerlink" title="四、参考"></a>四、参考</h2><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>在会计学中，复式记账法（又称为复式簿记 - Bookkeeping）是商业及其他组织上记录金融交易的标准系统。该系统之所以称为复式簿记，是因为每笔交易都至少记录在两个不同的账户当中。每笔交易的结果至少被记录在一个借方和一个贷方的账户，且该笔交易的借贷双方总额相等，即“有借必有贷，借贷必相等”。
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://github.com/beancount/beancount">Beancount</a> 是一个开源的基于纯文本的复式记账软件。它为我们提供了一系列开箱即用的命令行工具，以及一套简洁实用且美观的 WebUI：<a target="_blank" rel="noopener" href="https://github.com/beancount/fava">Fava</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>图论是研究事物之间关系的科学，万物之间都是有千丝万缕联系的，任何有联系（联接）的东西都可以抽象成图这种数据结构。抽象成图之后，更好做分析，比如分析哪个节点影响力最大，哪条路径最为关键，预测哪个方向会出现更多节点等等
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:4" class="footnote-text"><span>Martin Kleppmann 是剑桥大学「分布式」系统研究人员，著有 <a target="_blank" rel="noopener" href="https://book.douban.com/subject/26197294/">«Designing Data-Intensive Applications»</a>一书
+<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Beancount/">#Beancount</a>
+      
+        <a href="/tags/Bookkeeping/">#Bookkeeping</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>程序员复式记账指南（上）</div>
+      <div>https://nerd4me.github.io/posts/7a37cdfc.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>nerd4me</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/d2b9b4ed.html" title="基于 GitHub Pages + Hexo 搭建个人博客">
+                        <span class="hidden-mobile">基于 GitHub Pages + Hexo 搭建个人博客</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"oMPKEmwbmKnTBea7XlvaskIk-gzGzoHsz","appKey":"ZkjHiEC8yC8zscGJP1YVrvbB","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('mermaid' in window) {
+        mermaid.init();
+      }
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
