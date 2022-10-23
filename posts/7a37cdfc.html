@@ -25,10 +25,10 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://nerd4me.github.io/img/double-entry-bookkeeping.jpg">
 <meta property="article:published_time" content="2022-10-22T09:52:12.000Z">
-<meta property="article:modified_time" content="2022-10-23T02:13:44.166Z">
+<meta property="article:modified_time" content="2022-10-23T04:56:20.932Z">
 <meta property="article:author" content="nerd4me">
-<meta property="article:tag" content="Beancount">
 <meta property="article:tag" content="Bookkeeping">
+<meta property="article:tag" content="Beancount">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://nerd4me.github.io/img/double-entry-bookkeeping.jpg">
   
@@ -239,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.6k 字
+          5.7k 字
         
       </span>
     
@@ -250,7 +250,7 @@
         
         
         
-          47 分钟
+          48 分钟
         
       </span>
     
@@ -346,8 +346,8 @@ classDef black fill:#FFF,stroke:#000;
 
 <p>如上图数据结构中的账户余额有两个特别有用的特性：</p>
 <ol>
-<li>因为每笔交易同时出现在两个不同账户，图中所有账户余额之和为0；</li>
-<li>将所有节点的集合分成不相交的子集，分别计算两个子集的余额之和互为相反数；</li>
+<li>因为每笔交易同时出现在两个不同账户，交易关联的账户余额此消彼长，所以图数据结构中所有节点之和0；</li>
+<li>将所有节点的集合分成两个不相交的子集，分别计算两个子集的余额之和互为相反数；</li>
 </ol>
 <p>这两个特性对于检查账目的准确性非常有用，如果其中任何一个被违反了，就说明账目有问题。</p>
 <h3 id="经营煎饼摊"><a href="#经营煎饼摊" class="headerlink" title="经营煎饼摊"></a>经营煎饼摊</h3><p>老王的煎饼摊生意很不错，目前靠卖煎饼总共获得了5,000元的收入，而且他发明的改良版本煎饼设备获得了专利，煎饼设备生产厂家打算先生产500台试试水，并以每台设备10元的价格购买他的专利使用权（总共5,000元），厂家先预付了2,500元。</p>
@@ -504,16 +504,16 @@ classDef green fill:#A2FE97,stroke:#000;
 
 
 <p>上面的部分(Assets and Liabilities)代表图中的绿色节点，下面部分包含了粉色节点为和所有蓝色节点之和。我们已经在上面的损益表里展示了所有蓝色节点的余额，在资产负债表里，我们只需要将其计算出来的值填到「Profit&#x2F;Loss」这一项即可。</p>
-<h2 id="三、Beancount"><a href="#三、Beancount" class="headerlink" title="三、Beancount"></a>三、Beancount</h2><h3 id="Ledger-like-和-Beancount"><a href="#Ledger-like-和-Beancount" class="headerlink" title="Ledger-like 和 Beancount"></a>Ledger-like 和 Beancount</h3><p>Beancount 是一个 Ledger-like 软件。Ledger 是这一类复式记账软件的开创者。他们共有的特点是：</p>
-<ul>
-<li>采用改进的复式簿记方案（使用正负号而不是「借」和「贷」来表示账户之间的变化）；</li>
-<li>使用纯文本文件作为账本，用户用文本编辑器即可记账；</li>
-<li>账本既是用户输入的文件，同时也是软件的「数据库」；</li>
-<li>软件读取账本并生成报表，账本本身也可供人类直接阅读。</li>
-</ul>
-<p>市面上的复式簿记软件不少（如 GnuCash），但是大部分都是提供一个 GUI，用户在一堆文本框里输入各种数字和文字，软件接受输入然后存储到自己的数据库里（SQLite、MySQL 等）。用户无法直接看到或操作他们的数据，必须通过软件来操作；一旦软件停止更新，用户的数据就危在旦夕：难以导出，难以复用，很难跨平台或跨设备同步。</p>
-<p>而 Ledger-like 软件则直接使用文本文件作为账本，用户直接用最喜爱的编辑器打开账本即可记账。软件只是读取你的账本并生成报表，即使软件停止更新，用户依然可以直接阅读账本。你可以方便地在各在平台上记账，甚至跨设备问题也可以用 Dropbox 等同步工具，或是 Git 等版本管理工具轻松解决。</p>
-<p>Beancount 是 Ledger-like 软件中优秀的一员，相比用 C++ 写成的 Ledger，用 Python 写成的 Beancount 更轻便，更方便增加插件和二次开发，也增加了很多功能，如灵活强大的多「货币」支持。这里为加上引号是因为，Beancount 其实并不知道什么是「货币」，它记录的只是「通货」（commodity）的变化，所有的 commodity 皆由用户自己定义，因此 Beancount 可以用来记录包括货币在内任何东西的变化，比如年假天数、股票、航空里程、信用卡积分，当然了，还可以用来数豆子。这也是 Beancount 名字的来源。</p>
+<h2 id="三、Beancount"><a href="#三、Beancount" class="headerlink" title="三、Beancount"></a>三、Beancount</h2><p>千里之行，始于足下。复式记账的首要任务在于实践，在这之前，去研究很多很深的会计学概念没有任何意义。</p>
+<h3 id="为什么使用-Beancount"><a href="#为什么使用-Beancount" class="headerlink" title="为什么使用 Beancount"></a>为什么使用 Beancount</h3><p>要开始复式记账实践，我们首先要选择一个趁手的工具。在众多工具中我强烈推荐使用 Beancount<sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote"><span class="hint--top hint--rounded" aria-label="[Beancount](https://github.com/beancount/beancount) 是一个开源的基于纯文本的复式记账软件。它为我们提供了一系列开箱即用的命令行工具，以及一套简洁实用且美观的 WebUI：[Fava](https://github.com/beancount/fava)">[2]</span></a></sup>，原因大体如下：</p>
+<ol>
+<li>采用改进的复式记账方案，使用简单的正负号而不是「借贷」来记录交易，对于非会计学专业的人，更易上手；</li>
+<li>Beancount是一个开源工具，可以直接在本地运行，和其他基于云端的工具比起来，不用担心自己的账务数据泄漏；</li>
+<li>使用纯文本文件进行账目的管理，方便存储和管理，基于 Beancount 语法生成的文件，可供人肉眼直接阅读；</li>
+<li>提供了完整的命令行工具集和可视化工具 fava，可视化工具里提供了大部分的现成账务状况报表，也支持基于类SQL查询，生成更复杂的报表数据；</li>
+<li>账本即是用户的输入文件，同时也是软件的「数据库」，即使现有工具不维护了，我们也可以很方便的切换成别的工具，自己只需要写一个转换程序就可以了；</li>
+</ol>
+<p>Beancount 是 Ledger-like<sup id="fnref:5" class="footnote-ref"><a href="#fn:5" rel="footnote"><span class="hint--top hint--rounded" aria-label="Ledger 是这一类复式记账软件的开创者，它们的共同特点是直接使用文本文件作为账本，用户直接用最喜爱的编辑器打开账本即可记账。软件只是读取你的账本文件并生成对应的报表">[5]</span></a></sup> 软件中优秀的一员，相比用 C++ 写成的 Ledger，用 Python 写成的 Beancount 更轻便，更方便增加插件和二次开发，也增加了很多功能，如灵活强大的多「货币」支持。这里为加上引号是因为，Beancount 其实并不知道什么是「货币」，它记录的只是「通货」（commodity）的变化，所有的 commodity 皆由用户自己定义，因此 Beancount 可以用来记录包括货币在内任何东西的变化，比如年假天数、股票、航空里程、信用卡积分，当然了，还可以用来数豆子。这也是 Beancount 名字的来源。</p>
 <h3 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h3><p>首先需要安装 <code>Python3</code> 环境，然后安装对应的包</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install beancount fava<br></code></pre></td></tr></table></figure>
 
@@ -529,7 +529,8 @@ classDef green fill:#A2FE97,stroke:#000;
 <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://github.com/beancount/beancount">Beancount</a> 是一个开源的基于纯文本的复式记账软件。它为我们提供了一系列开箱即用的命令行工具，以及一套简洁实用且美观的 WebUI：<a target="_blank" rel="noopener" href="https://github.com/beancount/fava">Fava</a>
 <a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>图论是研究事物之间关系的科学，万物之间都是有千丝万缕联系的，任何有联系（联接）的东西都可以抽象成图这种数据结构。抽象成图之后，更好做分析，比如分析哪个节点影响力最大，哪条路径最为关键，预测哪个方向会出现更多节点等等
 <a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:4" class="footnote-text"><span>Martin Kleppmann 是剑桥大学「分布式」系统研究人员，著有 <a target="_blank" rel="noopener" href="https://book.douban.com/subject/26197294/">«Designing Data-Intensive Applications»</a>一书
-<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:5" class="footnote-text"><span>Ledger 是这一类复式记账软件的开创者，它们的共同特点是直接使用文本文件作为账本，用户直接用最喜爱的编辑器打开账本即可记账。软件只是读取你的账本文件并生成对应的报表
+<a href="#fnref:5" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
                 
               </div>
             
@@ -541,9 +542,9 @@ classDef green fill:#A2FE97,stroke:#000;
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Beancount/">#Beancount</a>
-      
         <a href="/tags/Bookkeeping/">#Bookkeeping</a>
+      
+        <a href="/tags/Beancount/">#Beancount</a>
       
     </div>
   
