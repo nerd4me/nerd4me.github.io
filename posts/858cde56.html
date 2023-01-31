@@ -16,16 +16,16 @@
   <meta name="author" content="nerd4me">
   <meta name="keywords" content="">
   
-    <meta name="description" content="文接上篇 程序员复式记账指南（上），上篇文章的最后，我们安装了 Beancount 基本环境，并通过官方提供示例账本，对其有了一个初步的认识。 一、基础现在可以开始着手写我们的第一个账本了。怎么写？Beancount 作者提供了非常详尽的使用文档 比如老王如果使用 Beancount 记账的话，他的账本将是这样的 1234567891011121314151617181920211970-01-0">
+    <meta name="description" content="文接上篇 程序员复式记账指南（上），上篇文章的最后，我们安装了 Beancount 基本环境，并通过官方提供示例账本，对其有了一个初步的认识。 一、基础语法入门对于怎么使用 Beancount 来编写我们的账本，Beancount 开源工具的作者提供了非常详尽的《说明文档》 1.1 第一个账本下面我们使用一个上篇文章中老王的例子来说明如何使用 Beancount 来编写我们的第一个账本： 1234">
 <meta property="og:type" content="article">
 <meta property="og:title" content="程序员复式记账指南（下）">
 <meta property="og:url" content="https://nerd4me.github.io/posts/858cde56.html">
 <meta property="og:site_name" content="Nerd4me&#39;s Blog">
-<meta property="og:description" content="文接上篇 程序员复式记账指南（上），上篇文章的最后，我们安装了 Beancount 基本环境，并通过官方提供示例账本，对其有了一个初步的认识。 一、基础现在可以开始着手写我们的第一个账本了。怎么写？Beancount 作者提供了非常详尽的使用文档 比如老王如果使用 Beancount 记账的话，他的账本将是这样的 1234567891011121314151617181920211970-01-0">
+<meta property="og:description" content="文接上篇 程序员复式记账指南（上），上篇文章的最后，我们安装了 Beancount 基本环境，并通过官方提供示例账本，对其有了一个初步的认识。 一、基础语法入门对于怎么使用 Beancount 来编写我们的账本，Beancount 开源工具的作者提供了非常详尽的《说明文档》 1.1 第一个账本下面我们使用一个上篇文章中老王的例子来说明如何使用 Beancount 来编写我们的第一个账本： 1234">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://nerd4me.github.io/img/beancount-bookkeeping.png">
 <meta property="article:published_time" content="2023-01-17T13:24:12.000Z">
-<meta property="article:modified_time" content="2023-01-17T17:28:28.000Z">
+<meta property="article:modified_time" content="2023-01-31T14:50:18.842Z">
 <meta property="article:author" content="nerd4me">
 <meta property="article:tag" content="Bookkeeping">
 <meta property="article:tag" content="Beancount">
@@ -239,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6.1k 字
+          5.7k 字
         
       </span>
     
@@ -250,7 +250,7 @@
         
         
         
-          51 分钟
+          48 分钟
         
       </span>
     
@@ -302,59 +302,64 @@
               <div class="markdown-body">
                 
                 <p>文接上篇 <a href="https://nerd4me.github.io/posts/7a37cdfc.html">程序员复式记账指南（上）</a>，上篇文章的最后，我们安装了 Beancount 基本环境，并通过官方提供示例账本，对其有了一个初步的认识。</p>
-<h2 id="一、基础"><a href="#一、基础" class="headerlink" title="一、基础"></a>一、基础</h2><p>现在可以开始着手写我们的第一个账本了。怎么写？Beancount 作者提供了非常详尽的<a target="_blank" rel="noopener" href="https://beancount.github.io/docs/index.html">使用文档</a></p>
-<p>比如老王如果使用 Beancount 记账的话，他的账本将是这样的</p>
+<h2 id="一、基础语法入门"><a href="#一、基础语法入门" class="headerlink" title="一、基础语法入门"></a>一、基础语法入门</h2><p>对于怎么使用 Beancount 来编写我们的账本，Beancount 开源工具的作者提供了非常详尽的<a target="_blank" rel="noopener" href="https://beancount.github.io/docs/index.html">《说明文档》</a></p>
+<h3 id="1-1-第一个账本"><a href="#1-1-第一个账本" class="headerlink" title="1.1 第一个账本"></a>1.1 第一个账本</h3><p>下面我们使用一个上篇文章中老王的例子来说明如何使用 Beancount 来编写我们的第一个账本：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs beancount">1970-01-01 open Income:Sales CNY<br>1970-01-01 open Assets:Bank:Saving:ICBC CNY<br>1970-01-01 open Assets:Fixed CNY ;固定资产<br>1970-01-01 open Liabilities:CreditCard:ICBC CNY<br>1970-01-01 open Expenses:Food CNY<br><br>2023-01-01 * &quot;xx公司&quot; &quot;购买设备&quot;<br>  Assets:Bank:Saving:ICBC      -1,000.00 CNY<br>  Assets:Fixed                  1,000.00 CNY<br><br>2023-01-01 * &quot;采购食材&quot;<br>  Liabilities:CreditCard:ICBC   -500.00 CNY<br>  Expenses:Food                  500.00 CNY<br><br>2023-01-02 * &quot;煎饼销售收入&quot;<br>  Income:Sales                -1,000.00 CNY<br>  Assets:Bank:Saving:ICBC      1,000.00 CNY<br><br>2023-01-02 * &quot;质量问题食材退货&quot;<br>  Expenses:Food                 -100.00 CNY<br>  Liabilities:CreditCard:ICBC    100.00 CNY<br></code></pre></td></tr></table></figure>
 
-<p>老王的账本里首先要设立账户。开户日期可随自己的喜好去定义，只需要比最早一笔涉及到该账户的交易早即可，这里偷了个懒，统一使用1970年1月1日作为开启日期，保证之后记录的所有都发生在这个日期之后。</p>
-<p>然后就可以真正开始记账了，交易格式如上所示。其中日期后面的星号（*）代表这是一笔已确认的交易，如果换成（!）号的话，则代表这笔交易有疑问，后期对账时应注意。紧跟在对账标识后面的是「收款人」（Payee）和「交易备注」（Narration），需要使用双引号括起来。Payee 是可选的，像上面的示例中只有一串字符串的话，其代表的就是 Narration 了。</p>
-<p>老王的账本已经写完了，纯手工书写，肉眼阅读也没啥障碍。那么 Beancount 有什么用？那当然是生成报表啦：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">(BEANCOUNT) bean-report laowang.bean balances<br>Assets:Bank:Saving:ICBC<br>Assets:Fixed                   1000.00 CNY<br>Equity<br>Expenses:Food                   400.00 CNY<br>Income:Sales                  -1000.00 CNY<br>Liabilities:CreditCard:ICBC    -400.00 CNY<br></code></pre></td></tr></table></figure>
+<ul>
+<li>首先需要新建一个纯文本文件，文件名就叫 <code>laowang.bean</code> 吧，然后选一个自己喜欢的文本编辑器来编写我们的账本内容；</li>
+<li>在纯文本文件里，首先需要使用 <code>open</code> 命令来设立账户，开始部分表示账户的开户日期，这里使用了<code>1970-01-01</code>做为账户的开户日期，一劳永逸的保证了所有账户相关的交易都在开户日期之后，不过这不是一个好的做法，后面章节中将提供一些关于账户开户日期的最佳实践，这里暂时先略过；</li>
+<li>账户设立好之后，我们就可以真正的开始记账了，交易格式如上所示，第一行的最前面是交易日期（格式：<code>YYYY-MM-DD</code>），日期后面的（*）号代表这是一笔已核对无误的交易，如果对该笔交易还存在疑问的话，可以将其改成 (!) 号。后期核对账目的时候，需要格外注意，接下来的用双引号括起来的分别代表「交易对方」（Payee）和「交易描述」（Narration）。其中 Payee 是可选的，如上示例中首行只存在一串双引号括起来的内容的交易，这部分内容表示的是 Narration。</li>
+<li>Beancount 中账户分类：<ul>
+<li><strong>Assets</strong> - 资产类账户：如现金、银行存款、基金、股票、借出账款等</li>
+<li><strong>Liabilities</strong> - 负债类账户：如信用卡、房贷、车贷、花呗、向他人借款等</li>
+<li><strong>Income</strong> - 收入类账户：工资、奖金等</li>
+<li><strong>Expenses</strong> - 费用类账户：购物、旅行、水电费用等</li>
+<li><strong>Equity</strong> - 权益类账户：开始记账之前已有的资产或者负债，一般用于初始化账户使用</li>
+</ul>
+</li>
+</ul>
+<p>到这里，一个简单的账本就编写好了，看起来平平无奇，接下来我们将使用 Beancount 提供工具集来初步感受一下 Beancount 的魅力</p>
+<h3 id="1-2-生成报表"><a href="#1-2-生成报表" class="headerlink" title="1.2 生成报表"></a>1.2 生成报表</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">(BEANCOUNT) bean-report laowang.bean balances<br>Assets:Bank:Saving:ICBC<br>Assets:Fixed                   1000.00 CNY<br>Equity<br>Expenses:Food                   400.00 CNY<br>Income:Sales                  -1000.00 CNY<br>Liabilities:CreditCard:ICBC    -400.00 CNY<br></code></pre></td></tr></table></figure>
 
-<p>通过上面生成的报表，老王对自己的账务状况一目了然：有价值 1,000 元的固定资产，在食材上花了 400 元，一共收入了 1,000 元，信用卡欠款 400 元。bean-report 没有报错，说明账是平的（总和为0）。bean-report 命令还能生成很多报表，具体可以使用 <code>bean-report -h</code> 查看帮助。</p>
-<p>当然，还可以用 fava 来启动一个 Web UI 服务，执行 <code>fava laowang.bean</code> 命令，然后在浏览器中打开 <a target="_blank" rel="noopener" href="http://localhost:5000/">http://localhost:5000/</a> 即可。由于老王的数据还比较单薄，这里帖两张样例账本的示例图</p>
+<p>我们可以通过 <code>bean-report</code> 命令来生成各种报表，如上示例，我们通过 <code>balances</code> 子命令来查询各个账户的余额，通过查阅上面生成的报表，老王对自己的财务状况了如指掌：有价值 1,000 元的固定资产，采购食材总共花费了 400 元，煎饼摊销售收入 1,000 元，欠着银行 400 元。<code>bean-report</code> 命令还能生成很多其他的报表，如：「损益表」、「资产负债表」，这些报表对我们的个人财务管理非常有帮助。</p>
+<p>当然，上面的命令行方式生成报表在使用上多少有点门槛，Beancount 作者贴心的为我们提供一个 Web UI 工具 Fava，安装好 Fava 之后，我们就可以通过 <code>fava laowang.bean</code> 命令来启动一个 web 服务，默认访问地址：<code>http://localhost:5000/</code>，这里贴两个通过官方示例数据生成的页面来感受一下</p>
 <img src="/posts/858cde56/fava_balance_sheet_sample.png" srcset="/img/loading.gif" lazyload class="" title="资产负债表">
 <img src="/posts/858cde56/fava_income_statement_sample.png" srcset="/img/loading.gif" lazyload class="" title="损益表">
 
-<h2 id="二、进阶"><a href="#二、进阶" class="headerlink" title="二、进阶"></a>二、进阶</h2><p>这里将另举几个例子，展现下 Beancount 和「复式记账法」能处理多么复杂的交易。这些复杂的交易用单式记账法来记录是极其困难且容易出错的，但是在复式记账中却是如此的自然且流畅。在上一篇里说过，复式记账的「复」是指一笔交易会涉及到复数个账户。上面老王的例子都是两个账户间「一对一」交易。但实际上，生活中会遇到各种「一对多」或「多对多」的交易场景：购买大件物品时因银行支付限额而使用多张银行卡合并付款；和朋友出去聚餐，事后 AA 平摊等。以下几个例子是有意构造的涉及到两个以上账户的交易，让我们一起来看看小王的账本。</p>
-<h3 id="2-1-第一个例子"><a href="#2-1-第一个例子" class="headerlink" title="2.1 第一个例子"></a>2.1 第一个例子</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs beancount">2023-01-10 * &quot;Some Company&quot; &quot;💰工资2022-12&quot;<br>  Income:SomeCompany:Salary           -20,000.00 CNY ;应发工资<br>  Income:SomeCompany:Benefits            -500.00 CNY ;节日福利<br>  Income:SomeCompany:HousingFund       -2,000.00 CNY ;住房公积金单位扣除<br>  Assets:Government:HousingFund         4,000.00 CNY ;住房公积金缴纳<br>  Expenses:Government:SocialSecurity    1,500.00 CNY ;社保缴纳<br>  Expenses:Government:IncomeTax         3,000.00 CNY ;个税缴纳<br>  Assets:Bank:Saving:ICBC              14,000.00 CNY ;实发工资<br></code></pre></td></tr></table></figure>
+<h2 id="二、进阶使用"><a href="#二、进阶使用" class="headerlink" title="二、进阶使用"></a>二、进阶使用</h2><p>下面将分几个真实的使用场景来分别介绍一下 Beancount 的进阶用法，通过这些使用场景，我们可以很直观的感觉到 Beancount 和 「复式记账」能处理多么复杂的交易，Let’s go。</p>
+<h3 id="2-1-场景1-发工资"><a href="#2-1-场景1-发工资" class="headerlink" title="2.1 场景1: 发工资"></a>2.1 场景1: 发工资</h3><p>作为一个纯粹的打工人，工资收入作为我们的主要收入来源，如何将其完整无误的记录下来就变得异常重要了，请看示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs beancount">2023-01-10 * &quot;Some Company&quot; &quot;💰工资2022-12&quot;<br>  Income:SomeCompany:Salary           -20,000.00 CNY ;应发工资<br>  Income:SomeCompany:Benefits            -500.00 CNY ;节日福利<br>  Income:SomeCompany:HousingFund       -2,000.00 CNY ;住房公积金单位扣除<br>  Assets:Government:HousingFund         4,000.00 CNY ;住房公积金缴纳<br>  Expenses:Government:SocialSecurity    1,500.00 CNY ;社保缴纳<br>  Expenses:Government:IncomeTax         3,000.00 CNY ;个税缴纳<br>  Assets:Bank:Saving:ICBC              14,000.00 CNY ;实发工资<br></code></pre></td></tr></table></figure>
 
-<p>这个例子展现了如何在 Beancount 里体现工资条上的内容。每个月工资条上总是会有各种各样的条目。小王在使用了 Beancount 之后，可以方便地把工资、福利、住房公积金、社保、个税等信息都记录进去，以后能很方便地统计每个月有多少工资是喂狗的。</p>
-<p>本例中，Income:* 账户有三条记录，Expenses:* 账户有两条记录，Assets:* 账户有两条记录，共7条记录，总和为0。</p>
-<h3 id="2-2-第二个例子"><a href="#2-2-第二个例子" class="headerlink" title="2.2 第二个例子"></a>2.2 第二个例子</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs beancount">2023-01-11 * &quot;XX 购物中心&quot; &quot;购物&quot;<br>  Liabilities:CreditCard:ICBC     -1,000.00 CNY ;信用卡刷卡<br>  Expenses:Entertainment:Game        400.00 CNY ;游戏卡<br>  Assets:Receivables:Xiao-Ming       600.00 CNY ;帮小明付钱，记入应收账户<br></code></pre></td></tr></table></figure>
-<p>小王拿到工资的第二天就和小明去购物中心逛游戏店，买了一张新出的游戏卡，花费 400 元，小明没带卡，身上现金不够，于是让小王帮他垫付，小王使用信用卡消费 1,000 元。</p>
-<p>本例子中小王的 Liabilities:* 账户减少了 1,000 元，Expenses:* 账户增加 400 元，Assets:* 账户增加 600 元。帮小明付的钱，算是小明欠小王的钱，所以算做资产。所有数字加起来和为0。</p>
-<h3 id="2-3-第三个例子"><a href="#2-3-第三个例子" class="headerlink" title="2.3 第三个例子"></a>2.3 第三个例子</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs beancount">2023-01-13 * &quot;xx 饭店&quot; &quot;和小明吃饭&quot;<br>  Assets:Cash:Wallet            -300.00 CNY ;钱包现金<br>  Assets:Receivables:Xiao-Ming  -200.00 CNY ;小明帮我付的现金<br>  Expenses:Food:DiningOut        250.00 CNY ;AA我的一半<br>  Assets:Receivables:Xiao-Ming   250.00 CNY ;AA小明的一半<br></code></pre></td></tr></table></figure>
-<p>过了几天小王和小明去一家饭店吃饭。两人一共消费了 500 元，还只能付现金。小王和小明各自掏空了钱包，凑齐了 500 元现金，其中小王付了 300 元，小明付了 200 元。这顿饭两人 AA。</p>
-<h3 id="2-4-第四个例子"><a href="#2-4-第四个例子" class="headerlink" title="2.4 第四个例子"></a>2.4 第四个例子</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs beancount">2023-01-17 * &quot;在免税店买东西&quot;<br> Assets:Cash                                 -200.00 USD<br> Liabilities:CreditCard:ICBC                 -650.00 CNY @@ 100.00 USD<br> Expenses:Clothing:Pants                     +150.00 USD<br> Expenses:Clothing:Shoes                     +150.00 USD<br></code></pre></td></tr></table></figure>
-<p>小王去国外出差了，回国前为了把兑换的美元现金花掉，忍不住又在免税店大肆购物，结果现金不够，于是 300 美元的商品用现金支付了 200 美元，用信用卡支付了 100 美元。小红的信用卡开通了外币消费人民币入账功能，刷美元也出人民币账单。</p>
-<p>本例中，涉及到了合并付款和货币转换。小明的信用卡被扣掉了 650 人民币，这其实是由 100 美元转换而来。在 Beancount 中使用 @@ 即可连接两种互相转换的 commodity。在本次交易中，负数共 -200.00 USD + (-100.00 USD) &#x3D; -300.00 USD，正数共 +150.00 USD + (+150.00 USD) &#x3D; +300.00 USD，正负相加依然得到的是 0。</p>
-<h3 id="2-5-使用-bean-query-进行复杂查询"><a href="#2-5-使用-bean-query-进行复杂查询" class="headerlink" title="2.5 使用 bean-query 进行复杂查询"></a>2.5 使用 bean-query 进行复杂查询</h3><p>fava 提供的 Web UI 已经能展现很多有用的财务报表，满足大部分用户的需求，如果用户需要进行一些更复杂的数据统计，比如「我经常去哪里加油」，则可以使用 bean-query 工具用 SQL 语句进行查询，详见 Beancount 作者的文档：<a target="_blank" rel="noopener" href="https://beancount.github.io/docs/beancount_query_language.html">Beancount – Query Language</a>。这是一个用来统计我加油次数的例子：</p>
+<p>看上面的例子是不是觉得很直观？其实它很好的将我们工资条上的各项条目给体现出来了，如果是使用「单式记账」的话，我们得编写好几笔交易，而且极其容易出错，「复式记账」可以非常方便的在同一笔交易中体现资金在各个账户之间的流动。如上示例中，把工资、福利、住房公积金、社保、个税等各项金额都记录进来，以后能很方便地统计出每个月有多少工资是白拿的。</p>
+<h3 id="2-2-场景2-记录房产"><a href="#2-2-场景2-记录房产" class="headerlink" title="2.2 场景2: 记录房产"></a>2.2 场景2: 记录房产</h3><p>房产的记录分为两个部分，首先是购买房产，其次是追踪房产的当前市场估值。可以通过给房子人民币变种价格（估值价格），比如我的自住房是这样记账的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs beancount">;创建房产货币<br>2018-06-01 commodity HOUSE.ABC<br>  name: &quot;房产名称&quot;<br>2018-06-01 open Assets:Property:CS:ABC HOUSE.ABC<br><br>;房产购买<br>2018-06-01 * &quot;XX地产&quot; &quot;房产名称&quot;<br>  Assets:Property:CS:ABC                        1 HOUSE.ABC &#123;2,000,000.00 CNY&#125; ;房产购买价格<br>  Assets:Bank:Saving:ICBC              600,000.00 CNY ;首付款<br>  Liabilities:Bank:BOC:MortgageLoan  1,400,000.00 CNY ;抵押贷款<br><br>;房产价格<br>2018-06-01 price HOUSE.ABC 2,000,000.00 CNY ;买入成本<br>2018-06-01 price HOUSE.ABC 2,000,000.00 CNY.UNVEST ;估值价格<br>2023-01-17 price HOUSE.ABC 2,500,000.00 CNY.UNVEST ;估值价格<br></code></pre></td></tr></table></figure>
+
+<p>Beancount 没有预先定义任何货币，因此我们可以记录任何我们想记的东西，这里的关键在于创建了人民币 <code>CNY</code> 的变种货币（commodity） <code>CNY.UNVEST</code>，这样当以人民币 <code>CNY</code> 展示总资产的时候，不会让估值价格影响总资产的统计。但是可以在价格页面查看房子的估值</p>
+<h3 id="2-3-场景3-AA消费"><a href="#2-3-场景3-AA消费" class="headerlink" title="2.3 场景3: AA消费"></a>2.3 场景3: AA消费</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs beancount">2023-01-13 * &quot;xx 饭店&quot; &quot;和小明吃饭&quot;<br>  Assets:VA:Wechat              -500.00 CNY ;微信零钱付款<br>  Expenses:Food:DiningOut        250.00 CNY ;AA我的一半<br>  Assets:Receivables:Xiao-Ming   250.00 CNY ;AA小明的一半<br><br>2023-01-17 * &quot;小明&quot; &quot;AA吃饭收款&quot;<br>  Assets:VA:Wechat               250.00 CNY<br>  Assets:Receivables:Xiao-Ming  -250.00 CNY<br></code></pre></td></tr></table></figure>
+
+<p>如上示例和小明 AA 吃饭一共花费 500 元，其中 250 元记入自己的费用账户，另外 250 元记入应收账户，几天后，小明通过微信转账归还 250 元。</p>
+<h3 id="2-4-场景4-货币转换"><a href="#2-4-场景4-货币转换" class="headerlink" title="2.4 场景4: 货币转换"></a>2.4 场景4: 货币转换</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs beancount">2023-01-17 * &quot;在免税店买东西&quot;<br> Assets:Cash                                 -200.00 USD ;现金支付<br> Liabilities:CreditCard:ICBC                 -650.00 CNY @@ 100.00 USD ;信用卡付款<br> Expenses:Clothing:Pants                     +150.00 USD<br> Expenses:Clothing:Shoes                     +150.00 USD<br></code></pre></td></tr></table></figure>
+
+<p>本例中，涉及到了合并付款和货币转换。信用卡被扣掉了 650 人民币，这其实是由 100 美元转换而来。在 Beancount 中使用 @@ 即可连接两种互相转换的货币（commodity)。</p>
+<h3 id="2-5-使用-DSL-进行复杂查询"><a href="#2-5-使用-DSL-进行复杂查询" class="headerlink" title="2.5 使用 DSL 进行复杂查询"></a>2.5 使用 DSL 进行复杂查询</h3><p>fava 提供的 Web UI 已经能展现很多有用的财务报表，满足大部分用户的需求，如果用户需要进行一些更复杂的数据统计，比如「我经常去哪里加油」，则可以使用 bean-query 工具用 SQL 语句进行查询，详见 Beancount 作者的文档：<a target="_blank" rel="noopener" href="https://beancount.github.io/docs/beancount_query_language.html">Beancount – Query Language</a>。这是一个用来统计我加油次数的例子：</p>
 <img src="/posts/858cde56/bean_query_sample.png" srcset="/img/loading.gif" lazyload class="" title="加油次数">
 
-<h2 id="三、最佳实践"><a href="#三、最佳实践" class="headerlink" title="三、最佳实践"></a>三、最佳实践</h2><p>笔者从2022年9月开始使用 Beancount 来管理个人财务，在使用过程中也总结了一些最佳实践。以下内容说说我个人是怎么使用 Beancount 的，希望对你有所帮助</p>
-<h3 id="3-1-编辑器支持"><a href="#3-1-编辑器支持" class="headerlink" title="3.1 编辑器支持"></a>3.1 编辑器支持</h3><p>笔者目前是使用 <code>VSCode</code> 做为账本文件编辑器，加上 <a target="_blank" rel="noopener" href="https://github.com/Lencerf/vscode-beancount">Lencerf&#x2F;vscode-beancount</a> 插件的配合，会自动为 *.bean 或者 *.beancount 文件加上语法高亮以及账户名自动补全，还可以实现金额数据自动对齐，具体配置方法请自己 Google 或者参考 Github 上作者提供的帮助文档。</p>
-<h3 id="3-2-账户开户日期的选择"><a href="#3-2-账户开户日期的选择" class="headerlink" title="3.2 账户开户日期的选择"></a>3.2 账户开户日期的选择</h3><p>Beancount 中账户的开户日期必须在该账户第一笔交易之前，小王为了省事将所有账户的开户日期设置为 1970-01-01 这个日期，其实可以有一些更有意义的选择：</p>
+<h2 id="三、一些最佳实践"><a href="#三、一些最佳实践" class="headerlink" title="三、一些最佳实践"></a>三、一些最佳实践</h2><p>笔者是从2022年9月开始使用 Beancount 来管理个人财务，在使用过程中也总结了一些最佳实践。以下内容说说我个人是怎么使用 Beancount 的，希望对你有所帮助</p>
+<h3 id="3-1-账本编辑器的选择"><a href="#3-1-账本编辑器的选择" class="headerlink" title="3.1 账本编辑器的选择"></a>3.1 账本编辑器的选择</h3><p>笔者目前是使用 <code>VSCode</code> 做为账本文件编辑器，加上 <a target="_blank" rel="noopener" href="https://github.com/Lencerf/vscode-beancount">Lencerf&#x2F;vscode-beancount</a> 插件的配合，会自动为 *.bean 或者 *.beancount 文件加上语法高亮以及账户名自动补全，还可以实现金额数据自动对齐，具体配置方法请自己 Google 或者参考 Github 上作者提供的帮助文档。</p>
+<h3 id="3-2-账户开户日期"><a href="#3-2-账户开户日期" class="headerlink" title="3.2 账户开户日期"></a>3.2 账户开户日期</h3><p>关于账户开户日期的设定，之前给出的示例有点偷懒，直接使用1970年1月1日做为账户开户日期。这里其实可以有些更具创意的选择</p>
 <ul>
 <li><strong>Expenses</strong> 账户可以使用自己的出生日期作为开户日期；</li>
 <li><strong>Income</strong> 账户可以按来源分类，如 <code>Income:SomeCompany:Salary</code>、<code>Income:OtherCompany:Salary</code> 等，然后以入职公司的时间作为开户日期；</li>
 <li><strong>Assets</strong> 和 <strong>Liabilities</strong> 账户中的借&#x2F;贷记卡，可以以在银行的开户日期作为 Beancount 账户的开户日期。</li>
 </ul>
-<p>不要害怕开账户。即使是一些短时间用的小账户（比如只用两个月的储值卡），也可以开账户，因为账户是可以关闭的。关闭后的账户不会出现在关闭后的报表里，所以并不会触发你的强迫症。</p>
-<h3 id="3-3-账本文件的分割"><a href="#3-3-账本文件的分割" class="headerlink" title="3.3 账本文件的分割"></a>3.3 账本文件的分割</h3><p>随着时间的积累，账本文件会越来越大，编辑起来不太方便。Beancount 有 include 语句，可以在一个账本文件里包含另一个账本文件。我的主账本文件里只有一些 option 条目，其他都是 include，各种打开&#x2F;关闭账户的的条目放单独的文件里，然后每个月的账本是一个单独的文件，也 include 进来。</p>
-<p>Beancount 会把所有交易都读到内存里后按日期重新排序，所以每条交易在文件里出现的顺序并不重要。如下是我的账本文件分割结构，或者可以给你提供参考：</p>
+<h3 id="3-3-账本文件结构"><a href="#3-3-账本文件结构" class="headerlink" title="3.3 账本文件结构"></a>3.3 账本文件结构</h3><p>随着交易的增多，我们的账本文件会越来越大，编辑起来会变得很不方便。Beancount 为我们提供了 <code>include</code> 的语法，可以让我们在一个 Beancount 文件里包含另外的文件。我的主账本文件 <code>main.bean</code> 里只有一些配置相关的条目，其他都是 include 的，具体结构参考如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs bash">.<br>├── 2022<br>│   ├── 09.bean<br>│   ├── 10.bean<br>│   ├── 11.bean<br>│   ├── 12.bean<br>│   ├── __index.bean<br>│   ├── creditcard.bean<br>│   ├── event.bean<br>│   ├── forecast.bean<br>│   ├── income.bean<br>│   ├── loan.bean<br>│   └── transfer.bean<br>├── 2023<br>│   ├── 01.bean<br>│   ├── __index.bean<br>│   ├── forecast.bean<br>│   ├── income.bean<br>│   ├── insurance.bean<br>│   ├── loan.bean<br>│   └── transfer.bean<br>├── account<br>│   ├── __index.bean<br>│   ├── assets.bean<br>│   ├── equity.bean<br>│   ├── expenses.bean<br>│   ├── income.bean<br>│   └── liabilities.bean<br>├── commodity<br>│   ├── __index.bean<br>│   └── fund.bean<br>├── doc<br>│   └── __index.bean<br>└── main.bean<br></code></pre></td></tr></table></figure>
 
-<h3 id="3-4-定期断言"><a href="#3-4-定期断言" class="headerlink" title="3.4 定期断言"></a>3.4 定期断言</h3><p>一个维护良好的账本应当定期做断言（assertion），即定期标记某个账户在某个日期的余额（balance），断言的示例如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs beancount">2023-01-01 balance Assets:Cash 500.00 CNY<br>2023-01-01 balance Assets:Cash 100.00 USD<br>2023-01-01 balance Liabilities:CreditCard:CMB1234 1,000.00 CNY<br></code></pre></td></tr></table></figure>
+<h3 id="3-4-定期对账"><a href="#3-4-定期对账" class="headerlink" title="3.4 定期对账"></a>3.4 定期对账</h3><p>我一般是在月末的时候核对一遍所有 <strong>Assets</strong> 和 <strong>Liabilities</strong> 账户的余额，在账本文件中使用 <code>balance</code> 命令，可以让 Beancount 自动帮我们核对账户余额与实际的是否相符，比如说我在2022年12月31通过网银查看到我的工商银行储蓄账户的余额是 10,000 元：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs beancount">2023-01-01 balance Assets:Bank:Saving:ICBC 10,000.00 CNY<br></code></pre></td></tr></table></figure>
 
-<p>断言语句告诉 Beancount，这个账户在指定日期凌晨 00:00:00 这个时间点，余额为这个数字，上面的示例代表在笔者的账本里，截止2022年12月底，笔者有 500 人民币、100 美元的现金，同时招行尾号 1234 的信用卡里有 1,000 人民币欠款。</p>
-<p>添加了断言之后，Beancount 便会检查那个账户的数字是否与断言的数字相等，如果不相等就会报错。人总是会犯错的，当你因为各种原因在账目上出现了错误，断言能帮助你缩小查错范围——你只需要检查最后一次成功的断言之后的发生的交易即可。</p>
-<h3 id="3-5-合理填充"><a href="#3-5-合理填充" class="headerlink" title="3.5 合理填充"></a>3.5 合理填充</h3><p>Beancount 另一个有趣的功能是填充（padding），填充是配合断言一起用的，当 Beancount 解析到填充语句时，会自动在这条语句和下一条断言语句之间插入一条填充交易，使得断言成功。在填充语句所在日期和断言语句所在日期之间不能再有其他交易。请看示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs beancount">2022-12-31 pad Assets:Bank:Saving:CMB1234 Income:Trade:PnL<br>2023-01-01 balance Assets:Bank:Saving:CMB1234 12,043.00 CNY<br></code></pre></td></tr></table></figure>
-
-<p>笔者在2022年12月底做账目核对的时候，发现招商银行借记卡里的余额是 12,043 元，但是根据 11 月底的余额，以及 12 月的交易记录，卡里的余额应该没有 12,043 元这么多，仔细看了下，网银里的账单记录，发现之前买的一个活期理财产品每天都有些收益，因此这里使用填充（pad）功能来解决这个问题，在 12 月最后一笔交易和 2023-01-01 的断言之间插入一条 <code>pad</code> 语句，这样 Beancount 会自动插入一条交易，使 <code>Assets:Bank:Saving:CMB1234</code> 里的余额调整为 12,043 元，而因此产生的差额，则记录到 <code>Income:Trade:PnL</code> 账户里。</p>
-<p>填充功能比手工写一笔交易有什么好呢？你不需要去计算两个数字之间的差额了—— Beancount 会自动算出差额并帮你插入交易。此外，这个差额是动态计算的。</p>
+<p>如上的语句告诉 Beancount，在 2023年1月1日 00:00:00 这个时间点，我的工商银行储蓄账户的余额是 10,000 元，如果 Beancount 通过这个时间点之前的交易记录计算出来的余额和这个值不相符的话，会直接报错。这样能尽可能的帮助我们缩小查错范围</p>
 
                 
               </div>
